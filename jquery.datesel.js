@@ -3,7 +3,10 @@
 		conf = $.extend({
 			formatDate:'y-m-d',
 			formatTime:'h:i',
-			minuteStep:5
+			minuteStep:5,
+			className:'form-control',
+			week:true,
+			weekName:new Array('日','月','火','水','木','金','土')
 		},conf);
 
 		var forms={},
@@ -81,7 +84,7 @@
 		};
 
 		var oY=(function(){
-			var html='<select>';
+			var html='<select class="'+conf.className+'">';
 			html+='<option value="">年</option>';
 			for(var i=nowY-3,l=nowY+1;i<l;i++){
 				html+='<option value="'+i+'">'+i+'年</option>';
@@ -91,7 +94,7 @@
 		})(),
 
 		oM=(function(){
-			var html='<select>';
+			var html='<select class="'+conf.className+'">';
 			html+='<option value="">月</option>';
 			for(var i=1,l=12;i<l;i++){
 				html+='<option value="'+i+'">'+((' '+i).slice(-2))+'月</option>';
@@ -101,17 +104,25 @@
 		})(),
 
 		oD=(function(){
-			var html='<select>';
+			var html='<select class="'+conf.className+'">';
 			html+='<option value="">日</option>';
-			for(var i=1,l=(new Date(nowY,nowM,0)).getDate();i<=l;i++){
-				html+='<option value="'+i+'">'+((' '+i).slice(-2))+'日</option>';
+			if(conf.week && conf.weekName){
+				var wk=conf.weekName;
+				for(var i=1,l=(new Date(nowY,nowM,0)).getDate();i<=l;i++){
+					var w=wk[(new Date(nowY,nowM-1,i)).getDay()];
+					html+='<option value="'+i+'">'+((' '+i).slice(-2))+'日('+w+')</option>';
+				}
+			}else{
+				for(var i=1,l=(new Date(nowY,nowM,0)).getDate();i<=l;i++){
+					html+='<option value="'+i+'">'+((' '+i).slice(-2))+'日</option>';
+				}
 			}
 			html+='</select>';
 			return $(html);
 		})(),
 
 		oH=(function(){
-			var html='<select>';
+			var html='<select class="'+conf.className+'">';
 			html+='<option value="">時</option>';
 			for(var i=0,l=23;i<=l;i++){
 				html+='<option value="'+i+'">'+((' '+i).slice(-2))+'時</option>';
@@ -121,7 +132,7 @@
 		})(),
 
 		oI=(function(){
-			var step=conf.minuteStep,html='<select>';
+			var step=conf.minuteStep,html='<select class="'+conf.className+'">';
 			html+='<option value="">分</option>';
 			for(var i=0,l=59;i<=l;i=i+step){
 				html+='<option value="'+i+'">'+(('0'+i).slice(-2))+'分</option>';
@@ -208,7 +219,7 @@
 			}else{
 				max=t.data('max').date.getFullYear();
 			}
-			
+
 			html+='<option value="">年</option>';
 			for(var i=min,l=max;i<=l;i++){
 				var s=(selected==i ? ' selected="selected"' : '');
@@ -268,10 +279,14 @@
 		setD=function(t,selected){
 			var min,max,html='',dat,dY,dM,o=t.data('d'),
 			current=getCurrent(t),
-			len=31;
+			len=31,
+			tY=nowY,
+			tM=nowM;
 
 			if(current){
 				len=(new Date(current.y,current.m,0)).getDate();
+				tY=current.y;
+				tM=current.m;
 			}
 
 			if(!selected){
@@ -322,10 +337,20 @@
 			}
 
 			html+='<option value="">日</option>';
-			for(var i=1,l=len;i<=l;i++){
-				var s=(selected==i ? ' selected="selected"' : '');
-				var d=(i<min || i>max ? ' disabled="disabled"' : '');
-				html+='<option value="'+i+'"'+s+''+d+'>'+((' '+i).slice(-2))+'日</option>';
+			if(conf.week && conf.weekName){
+				var wk=conf.weekName;
+				for(var i=1,l=len;i<=l;i++){
+					var w=wk[(new Date(tY,tM-1,i)).getDay()];
+					var s=(selected==i ? ' selected="selected"' : '');
+					var d=(i<min || i>max ? ' disabled="disabled"' : '');
+					html+='<option value="'+i+'"'+s+''+d+'>'+((' '+i).slice(-2))+'日('+w+')</option>';
+				}
+			}else{
+				for(var i=1,l=len;i<=l;i++){
+					var s=(selected==i ? ' selected="selected"' : '');
+					var d=(i<min || i>max ? ' disabled="disabled"' : '');
+					html+='<option value="'+i+'"'+s+''+d+'>'+((' '+i).slice(-2))+'日</option>';
+				}
 			}
 			o.html(html);
 		},
@@ -341,7 +366,7 @@
 				var s=(selected==i ? ' selected="selected"' : '');
 				html+='<option value="'+i+'"'+s+'>'+((' '+i).slice(-2))+'時</option>';
 			}
-			
+
 			o.html(html);
 		},
 
@@ -356,7 +381,7 @@
 				var s=(selected==i ? ' selected="selected"' : '');
 				html+='<option value="'+i+'"'+s+'>'+(('0'+i).slice(-2))+'分</option>';
 			}
-			
+
 			o.html(html);
 		};
 
