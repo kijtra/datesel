@@ -4,7 +4,7 @@
 			formatDate:'y-m-d',
 			formatTime:'h:i',
 			minuteStep:5,
-			wrapClass:'datesel-wrap',
+			wrapClass:'datesel-wrap form-inline',
 			selectClass:'form-control',
 			week:true,
 			weekName:new Array('日','月','火','水','木','金','土')
