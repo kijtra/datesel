@@ -4,6 +4,7 @@
 			formatDate:'y-m-d',
 			formatTime:'h:i',
 			minuteStep:5,
+			wrapTag:'span',
 			wrapClass:'datesel-wrap form-inline',
 			selectClass:'form-control',
 			week:true,
@@ -11,6 +12,8 @@
 		},conf);
 
 		var forms={},
+		wt=conf.wrapTag,
+		wc=conf.wrapClass,
 		now=new Date(),
 		nowY=now.getFullYear(),
 		nowM=now.getMonth()+1,
@@ -605,7 +608,7 @@
 		var ranges=$();
 		var forms=$(this).each(function(){
 			var val,val2,t=$(this),
-			wrap=$('<span class="'+conf.wrapClass+'"/>'),
+			wrap=$('<'+wt+(wc ? ' class="wc"' : '')+'/>'),
 			id=(''+Math.random()).substr(2),
 			isTime=t.data('time'),
 			d={
