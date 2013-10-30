@@ -613,7 +613,7 @@
 			isTime=t.data('time'),
 			d={
 				id:id,
-				default:dec(t.val()),
+				def:dec(t.val()),
 				min:t.data('min'),
 				max:t.data('max'),
 				minObj:null,
@@ -669,8 +669,8 @@
 				d.i.on('change',changeI).data({target:t});
 			}
 
-			if(d.default){
-				var def=d.default.date;
+			if(d.def){
+				var def=d.def.date;
 				d.y.val(def.getFullYear());
 				d.m.val(def.getMonth()+1);
 				d.d.val(def.getDate());
