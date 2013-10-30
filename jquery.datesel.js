@@ -16,8 +16,7 @@
 			weekName:new Array('日','月','火','水','木','金','土')
 		},conf);
 
-		var forms={},
-		wt=conf.wrapTag,
+		var wt=conf.wrapTag,
 		wc=conf.wrapClass,
 		now=new Date(),
 		nowY=now.getFullYear(),
