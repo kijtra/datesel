@@ -1,5 +1,10 @@
 ;(function($){
 	$.fn.datesel = function(conf){
+		var forms=$(this);
+		if(!forms.length){
+			return false;
+		}
+
 		conf = $.extend({
 			formatDate:'y-m-d',
 			formatTime:'h:i',
@@ -606,7 +611,7 @@
 		};
 
 		var ranges=$();
-		var forms=$(this).each(function(){
+		forms.each(function(){
 			var val,val2,t=$(this),
 			wrap=$('<'+wt+(wc ? ' class="'+wc+'"' : '')+'/>'),
 			id=(''+Math.random()).substr(2),
