@@ -5,8 +5,8 @@
 			formatTime:'h:i',
 			minuteStep:5,
 			wrapTag:'span',
-			wrapClass:'datesel-wrap form-inline',
-			selectClass:'form-control',
+			wrapClass:'datesel-wrap',
+			selectClass:'datesel-select form-control',
 			week:true,
 			weekName:new Array('日','月','火','水','木','金','土')
 		},conf);
@@ -608,7 +608,7 @@
 		var ranges=$();
 		var forms=$(this).each(function(){
 			var val,val2,t=$(this),
-			wrap=$('<'+wt+(wc ? ' class="wc"' : '')+'/>'),
+			wrap=$('<'+wt+(wc ? ' class="'+wc+'"' : '')+'/>'),
 			id=(''+Math.random()).substr(2),
 			isTime=t.data('time'),
 			d={
