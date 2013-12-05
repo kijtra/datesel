@@ -6,7 +6,7 @@
 		}
 
 		conf = $.extend({
-			formatDate:'y-m-d',
+			formatDate:'y/m/d',
 			formatTime:'h:i',
 			minuteStep:5,
 			wrapTag:'span',
@@ -330,7 +330,7 @@
 				dM=dat.getMonth()+1;
 				if(current){
 					if(current.y<dY && current.m<dM){
-						min=60;
+						min=32;
 						selected=null;
 						o.val('');
 					}else if(current.y==dY && current.m==dM){
@@ -350,7 +350,7 @@
 				dM=dat.getMonth()+1;
 				if(current){
 					if(current.y>dY && current.m>dM){
-						max=60;
+						max=31;
 						selected=null;
 						o.val('');
 					}else if(current.y==dY && current.m==dM){
@@ -673,24 +673,35 @@
 				wrap.append(d.y).append(d.m).append(d.d);
 			}
 
-			d.y.on('change',changeY).data({target:t});
-			d.m.on('change',changeM).data({target:t});
-			d.d.on('change',changeD).data({target:t});
+			d.y.change(changeY).data({target:t});
+			d.m.change(changeM).data({target:t});
+			d.d.change(changeD).data({target:t});
 			if(isTime){
-				d.h.on('change',changeH).data({target:t});
-				d.i.on('change',changeI).data({target:t});
+				d.h.change(changeH).data({target:t});
+				d.i.change(changeI).data({target:t});
 			}
-
+			
 			t.data(d);
-
+			
 			if(d.def){
-				var def=d.def.date;
-				setY(t,def.getFullYear());
-				setM(t,def.getMonth()+1);
-				setD(t,def.getDate());
+				var def=d.def.date,
+				yy=def.getFullYear(),
+				mm=def.getMonth()+1,
+				dd=def.getDate(),
+				h,i;
+				d.y.val(yy);
+				d.m.val(mm);
+				d.d.val(dd);
+				setY(t,yy);
+				setM(t,mm);
+				setD(t,dd);
 				if(isTime){
-					setH(t,def.getHours());
-					setI(t,def.getMinutes());
+					hh=def.getHours(),
+					ii=def.getMinutes();
+					d.h.val(hh);
+					d.i.val(ii);
+					setH(t,hh);
+					setI(t,ii);
 				}
 			} else {
 				setY(t);
@@ -701,7 +712,7 @@
 					setI(t);
 				}
 			}
-
+			
 			t.after(wrap);
 		});
 
