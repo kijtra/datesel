@@ -681,24 +681,25 @@
 				d.i.on('change',changeI).data({target:t});
 			}
 
+			t.data(d);
+
 			if(d.def){
 				var def=d.def.date;
-				d.y.val(def.getFullYear());
-				d.m.val(def.getMonth()+1);
-				d.d.val(def.getDate());
+				setY(t,def.getFullYear());
+				setM(t,def.getMonth()+1);
+				setD(t,def.getDate());
 				if(isTime){
-					d.h.val(def.getHours());
-					d.i.val(def.getMinutes());
+					setH(t,def.getHours());
+					setI(t,def.getMinutes());
 				}
-			}
-			
-			t.data(d);
-			setY(t);
-			setM(t);
-			setD(t);
-			if(isTime){
-				setH(t);
-				setI(t);
+			} else {
+				setY(t);
+				setM(t);
+				setD(t);
+				if(isTime){
+					setH(t);
+					setI(t);
+				}
 			}
 
 			t.after(wrap);
